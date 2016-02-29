@@ -14,32 +14,119 @@
 
 import os
 from flask import Flask, jsonify
+import dialog, nlc, randr
+
+# Externalized customizations --------------------
+WATSON_IMAGE = 'watson.jpg'
+#WATSON_STYLE = 'another'
+WATSON_STYLE = 'chat-watson'
+#HUMAN_STYLE = 'me'
+HUMAN_STYLE = 'chat-human'
+#CHAT_TEMPLATE = 'chat.html'
+CHAT_TEMPLATE = 'IBM-style-dialog.html'
+#QUESTION_INPUT = 'question'
+QUESTION_INPUT = 'response-input'
+# Reset conversation -----------------------------
+DIALOG_CLIENT_ID = 0
+DIALOG_CONVERSATION_ID = 0
+POSTS = []
+
+# ------------------------------------------------
+# CLASSES ----------------------------------------
+class Post:
+    def __init__(self, style, icon, text, datetime, name):
+        self.style = style
+        self.icon = icon
+        self.text = text
+        self.datetime = datetime
+        self.name = name
+
+# UI - formatting chat window responses ----------
+def post_watson_response(response):
+    global WATSON_IMAGE, POSTS, HUMAN_STYLE, WATSON_STYLE
+    now = datetime.datetime.now()
+    post = Post(WATSON_STYLE, WATSON_IMAGE, response, now.strftime('%Y-%m-%d %H:%M'), 'Watson')
+    POSTS.append(post)
+    return post
+
+def post_user_input(input):
+    global POSTS, HUMAN_STYLE, WATSON_STYLE
+    now = datetime.datetime.now()
+    post = Post(HUMAN_STYLE, input, now.strftime('%Y-%m-%d %H:%M'))
+    POSTS.append(post)
+    return post
+
+#Orchestration Function
+def orchestrate(client_id, conversation_id, question):
+    #Define NLC confidence threshold
+    threshold = 0
+    #Classify question with Watson NLC service
+    class_name = BMIX_get_class_name(question, threshold)
+    #Format question for dialog calling "handshake" formatter
+    classified_question = formulate_classified_question(class_name, question)
+    #Invoke Watson Dialog service - classified_question (with prepended class_name) passed
+    response = BMIX_get_next_dialog_response(client_id, conversation_id, classified_question)
+    #Intercept Dialog service response for supplemental service calls
+    application_response = get_application_response(response, question)
+    return application_response
+
+# Functions in external modules ------------------
+get_application_response = randr.get_application_response
+BMIX_get_class_name = nlc.BMIX_get_class_name
+formulate_classified_question = nlc.formulate_classified_question
+BMIX_get_first_dialog_response_json = dialog.BMIX_get_first_dialog_response_json
+BMIX_get_next_dialog_response = dialog.BMIX_get_next_dialog_response
 
 app = Flask(__name__)
 
 @app.route('/')
-def Welcome():
-    return app.send_static_file('index.html')
+def Index():
+    global POSTS, CHAT_TEMPLATE, DIALOG_CLIENT_ID, DIALOG_CONVERSATION_ID
+    POSTS = []
+    first_response = ''
+    response_json = BMIX_get_first_dialog_response_json()
+    if response_json != None:
+        DIALOG_CLIENT_ID = response_json['client_id']
+        DIALOG_CONVERSATION_ID = response_json['conversation_id']
+        response = response_json['response']
+    post_watson_response(response)
+    return render_template(CHAT_TEMPLATE, posts=POSTS)
 
-@app.route('/myapp')
-def WelcomeToMyapp():
-    return 'Welcome again to my app running on Bluemix!'
+@app.route('/', methods=['POST'])
+def Index_Post():
+    global POSTS, CHAT_TEMPLATE, QUESTION_INPUT, DIALOG_CLIENT_ID, DIALOG_CONVERSATION_ID
+    question = request.form[QUESTION_INPUT]
+#    Display original question
+    post_user_input(question)
+#    Orchestrate
+    application_response = orchestrate(DIALOG_CLIENT_ID, DIALOG_CONVERSATION_ID, question)
+#    Display application_response
+    post_watson_response(application_response)
+    return render_template(CHAT_TEMPLATE, posts=POSTS)
+    xs
+@app.route('/service/')
+def Service():
+    response_json = BMIX_get_first_dialog_response_json()
+    if response_json != None:
+        DIALOG_CLIENT_ID = response_json['client_id']
+        DIALOG_CONVERSATION_ID = response_json['conversation_id']
+    return json.dumps(response_json, sort_keys=True, indent=4, separators=(',', ': '))
 
-@app.route('/api/people')
-def GetPeople():
-    list = [
-        {'name': 'John', 'age': 28},
-        {'name': 'Bill', 'val': 26}
-    ]
-    return jsonify(results=list)
+@app.route('/service/', methods=['POST'])
+def Service_Post():
+    global POSTS, CHAT_TEMPLATE, QUESTION_INPUT
+    data = json.loads(request.data)
+    client_id = data['client_id']
+    conversation_id = data['conversation_id']
+    question = data['question']
+#    Orchestrate
+    application_response = orchestrate(client_id, conversation_id, question)
+    return (application_response)
 
-@app.route('/api/people/<name>')
-def SayHello(name):
-    message = {
-        'message': 'Hello ' + name
-    }
-    return jsonify(results=message)
+@app.route('/slack/', methods=['POST'])
+def Slack_Post():
+    return ('{"text": "Hello world from Watson dialog"}')
 
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=int(port))
+    app.run(host='0.0.0.0', port=int(port))

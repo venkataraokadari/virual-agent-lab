@@ -1,0 +1,12 @@
+What is the expected service time of my ICD?,Product_Info
+What is the service time of the device?,Product_Info
+When is the expected end of life?,Product_Info
+How long will this ICD last?,Product_Info
+I am having trouble getting readings on the monitoring system.,Troubleshooting
+I’m not getting readings on my ICD,Troubleshooting
+Monitoring is not working on the Lumax,Troubleshooting
+How do I get readings from the ICD?,Troubleshooting
+The patient is reporting multiple slight shocks,Issue_Lookup
+Patient is reporting shocks from their ICD,Issue_Lookup
+Repeated shocks are reported by the patient,Issue_Lookup
+The patient is complaining of slight shocks from the ICD,Issue_Lookup

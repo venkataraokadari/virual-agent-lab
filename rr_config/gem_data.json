@@ -1,0 +1,24 @@
+{
+  "add" : {
+    "doc" : {
+      "id" : 1,
+      "product" : "Mammotome Control Module With Smartvac",
+      "description" : "2013-01-01 The customer has reported that the scm12 control module is making an unusual louder than normal noise from the control module. The customer has suggested it sounds like a motor grinding. The customer has reported that the breat biopsies have been completed. There have been no patient consequences reported. Device was returned to manufacturer 2013-04-23 MedWatch Adverse Event Id. 948837"
+    }
+  },
+  "add" : {
+    "doc" : {
+      "id" : 2,
+      "product" : "Gemstone ICD Lead",
+      "description" : "2013-01-01 Patient presented with inappropriate icd shocks due to lead fracture and noise on right ventricular icd lead. MedWatch Adverse Event Id. 951162"
+    }
+  },
+  "add" : {
+    "doc" : {
+      "id" : 3,
+      "product" : "Gemstone ICD Lead",
+      "description" : "2013-01-01 Sudden fracture of 1400 lead leading to noise in icd lead and inappropriate icd shocks - lead impedance on arrival with noise on lead was 44052. Overnite noise on lead created sensing issues with pacing and had to turn off rv pacing - lead impedance increase 2 low - 200 er. Lead revised in 2007. MedWatch Adverse Event Id. 960737"
+    }
+  },
+  "commit" : { }
+}

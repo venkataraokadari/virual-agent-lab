@@ -1,9 +1,13 @@
 applications:
-- path: .
+- services:
+  - dialog-lab
+  - nlc-lab
+  - rr-lab
+  path: .
   memory: 128M
   instances: 1
   domain: mybluemix.net
-  name: cma-python-test
-  host: cma-python-test
+  name: virtual-agent-lab
+  host: virtual-agent-lab
   disk_quota: 1024M
   buildpack: python_buildpack
