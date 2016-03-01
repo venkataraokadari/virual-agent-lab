@@ -32,7 +32,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
   3. Upload the gem_dialog.xml flow file through the dialog tool UI.
 
-  ![dialog-test](dialog-test)
+  ![dialog-test](instructions/dialog-test.png)
 
   4. Experiment with Have a Conversation to see how the dialog flow works in practice.
 
@@ -94,7 +94,7 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
   6. Go to Environment Variables in Bluemix and create 3 user-defined environment variables: DIALOG_ID, CLASSIFIER_ID and SOLR_CLUSTER_ID. Input the IDs that you captured when configuring these services.
 
-  ![env_var](env_var.png)
+  ![env_var](instructions/env_var.png)
 
   Because you have defined environment variables, you do not need to hardcode credentials or IDs in the application code itself, however you should take note of where this can be done.
 
