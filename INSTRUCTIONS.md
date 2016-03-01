@@ -110,7 +110,9 @@ So let’s get started. The first thing to do is to build out the shell of our a
 
 ## Test
 
-To test out our application, click the "View App" button back on the "Success!" page.
+  To test out our application, click the "View App" button back on the "Success!" page.
+
+  ![app](instructions/app.png)
 
 # Congratulations
 
