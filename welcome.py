@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-from flask import Flask, jsonify
+import os, requests, json, string, datetime
+from flask import Flask, request, jsonify, render_template
 import dialog, nlc, randr
 
 # Externalized customizations --------------------
@@ -26,6 +26,9 @@ HUMAN_STYLE = 'chat-human'
 CHAT_TEMPLATE = 'IBM-style-dialog.html'
 #QUESTION_INPUT = 'question'
 QUESTION_INPUT = 'response-input'
+#PERONA_STYLE
+PERSONA = 'John'
+PERSONA_IMAGE = 'watson.jpg'
 # Reset conversation -----------------------------
 DIALOG_CLIENT_ID = 0
 DIALOG_CONVERSATION_ID = 0
@@ -47,19 +50,23 @@ def post_watson_response(response):
     now = datetime.datetime.now()
     post = Post(WATSON_STYLE, WATSON_IMAGE, response, now.strftime('%Y-%m-%d %H:%M'), 'Watson')
     POSTS.append(post)
+    print 'in post_watson_response'
+    print post
     return post
 
 def post_user_input(input):
-    global POSTS, HUMAN_STYLE, WATSON_STYLE
+    global POSTS, HUMAN_STYLE, WATSON_STYLE, PERSONA_IMAGE, PERSONA
     now = datetime.datetime.now()
-    post = Post(HUMAN_STYLE, input, now.strftime('%Y-%m-%d %H:%M'))
+    post = Post(HUMAN_STYLE, PERSONA_IMAGE, input, now.strftime('%Y-%m-%d %H:%M'), PERSONA)
     POSTS.append(post)
+    print 'in post_user_input'
     return post
 
 #Orchestration Function
 def orchestrate(client_id, conversation_id, question):
     #Define NLC confidence threshold
     threshold = 0
+    print 'in orchestrate'
     #Classify question with Watson NLC service
     class_name = BMIX_get_class_name(question, threshold)
     #Format question for dialog calling "handshake" formatter
@@ -83,19 +90,25 @@ app = Flask(__name__)
 def Index():
     global POSTS, CHAT_TEMPLATE, DIALOG_CLIENT_ID, DIALOG_CONVERSATION_ID
     POSTS = []
+    print 'in get'
     first_response = ''
     response_json = BMIX_get_first_dialog_response_json()
     if response_json != None:
         DIALOG_CLIENT_ID = response_json['client_id']
         DIALOG_CONVERSATION_ID = response_json['conversation_id']
         response = response_json['response']
+        print DIALOG_CLIENT_ID
+        print DIALOG_CONVERSATION_ID
+        print response
     post_watson_response(response)
     return render_template(CHAT_TEMPLATE, posts=POSTS)
 
 @app.route('/', methods=['POST'])
 def Index_Post():
     global POSTS, CHAT_TEMPLATE, QUESTION_INPUT, DIALOG_CLIENT_ID, DIALOG_CONVERSATION_ID
+    print 'in post'
     question = request.form[QUESTION_INPUT]
+    print question
 #    Display original question
     post_user_input(question)
 #    Orchestrate
@@ -103,7 +116,7 @@ def Index_Post():
 #    Display application_response
     post_watson_response(application_response)
     return render_template(CHAT_TEMPLATE, posts=POSTS)
-    xs
+
 @app.route('/service/')
 def Service():
     response_json = BMIX_get_first_dialog_response_json()
@@ -129,4 +142,5 @@ def Slack_Post():
 
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
+    app.debug = True
     app.run(host='0.0.0.0', port=int(port))

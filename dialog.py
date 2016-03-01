@@ -19,6 +19,7 @@ if 'VCAP_SERVICES' in os.environ:
 #Dialog Functions
 def BMIX_get_first_dialog_response_json():
     global DIALOG_ID, DIALOG_USERNAME, DIALOG_PASSWORD
+    print 'in first_dialog'
     POST_SUCCESS = 201
     response_json = None
     url = 'https://watson-api-explorer.mybluemix.net/dialog/api/v1/dialogs/' + DIALOG_ID + '/conversation'
@@ -26,10 +27,12 @@ def BMIX_get_first_dialog_response_json():
     if r.status_code == POST_SUCCESS:
         response_json = r.json()
         response_json['response'] = format_dialog_response_as_string(response_json['response'])
+        #print response_json
     return response_json
 
 def BMIX_get_next_dialog_response(client_id, conversation_id, input):
     global DIALOG_ID, DIALOG_USERNAME, DIALOG_PASSWORD
+    print 'in second dialog'
     POST_SUCCESS = 201
     response = ''
     url = 'https://watson-api-explorer.mybluemix.net/dialog/api/v1/dialogs/' + DIALOG_ID + '/conversation'

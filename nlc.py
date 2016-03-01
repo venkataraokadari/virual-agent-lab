@@ -18,6 +18,7 @@ if 'VCAP_SERVICES' in os.environ:
 #NLC Functions
 def BMIX_get_class_name(question, threshold):
     global CLASSIFIER_ID, CLASSIFIER_USERNAME, CLASSIFIER_PASSWORD
+    print 'in get_class_name'
     POST_SUCCESS = 200
     class_name = ''
     url = 'https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers/' + CLASSIFIER_ID + '/classify'
