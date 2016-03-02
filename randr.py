@@ -25,21 +25,26 @@ ISSUE_LOOKUP_MESSAGE = '[##Issue_Lookup##]'
 def BMIX_retrieve_and_rank(args_string, fields_str):
     global SOLR_CLUSTER_ID, RANKER_ID, RETRIEVE_AND_RANK_USERNAME, RETRIEVE_AND_RANK_PASSWORD
     POST_SUCCESS = 200
-    docs = []
-    url = 'https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/' + SOLR_CLUSTER_ID + '/solr/gemstone-collection3/select?q=' + args_string + '&wt=json&fl=' + fields_str
+    titles = []
+    defects = []
+    notes = []
+    url = 'https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/' + SOLR_CLUSTER_ID + '/solr/virtual_agent_collection/select?q=' + args_string + '&wt=json&fl=' + fields_str
     r = requests.get(url, auth=(RETRIEVE_AND_RANK_USERNAME, RETRIEVE_AND_RANK_PASSWORD), headers={'content-type': 'application/json'})
+    print r.json()
     if r.status_code == POST_SUCCESS:
+        print 'in rr 200'
         #parse rr response
-        report_title_1 = parse_rr_output(r,0,'report_title')
-        defect_status_1 = parse_rr_output(r,0,'defect_status')
-        text_description_1 = parse_rr_output(r,0,'text_notes')
-        report_title_2 = parse_rr_output(r,1,'report_title')
-        defect_status_2 = parse_rr_output(r,1,'defect_status')
-        text_description_2 = parse_rr_output(r,1,'text_notes')
-        report_title_3 = parse_rr_output(r,2,'report_title')
-        defect_status_3 = parse_rr_output(r,2,'defect_status')
-        text_description_3 = parse_rr_output(r,2,'text_notes')
-        docs = '<b>Incident: </b>' + report_title_1 + '<br><b>Status: </b>' + defect_status_1 + '<br><b>Description: </b>' + text_description_1 + '<br><br><b>Incident: </b>' + report_title_2 + '<br><b>Status: </b>' +  defect_status_2 + '<br><b>Description: </b>' + text_description_2 + '<br><br><b>Incident: </b> ' + report_title_3 + '<br><b>Status: </b>' + defect_status_3 + '<br><b>Description: </b>' + text_description_3
+        for i in range(0,3):
+            titles[i] = json.dumps(r.json()['response']['docs'][i]['report_title'])
+            titles[i] = titles[i].translate(None,'\[\]\"')
+        for j in range(0,3):
+            defects[j] = json.dumps(r.json()['response']['docs'][j]['defect_status'])
+            defects[j] = defects[j].translate(None,'\[\]\"')
+        for k in range(0,3):
+            notes[k] = json.dumps(r.json()['response']['docs'][k]['text_notes'])
+            notes[k] = notes[k].translate(None,'\[\]\"')
+        #format response
+        docs = '<b>Incident: </b>' + titles[0] + '<br><b>Status: </b>' + defects[0] + '<br><b>Description: </b>' + notes[0] + '<br><br><b>Incident: </b>' + titles[1] + '<br><b>Status: </b>' +  defects[1] + '<br><b>Description: </b>' + notes[1] + '<br><br><b>Incident: </b> ' + titles[2] + '<br><b>Status: </b>' + defects[2] + '<br><b>Description: </b>' + notes[2]
     else:
         docs = '500 error connecting with Retrieve and Rank service'
     return docs
@@ -55,13 +60,6 @@ def issue_lookup_requested(response):
     if (response == ISSUE_LOOKUP_MESSAGE):
         return True
     return False
-
-def parse_rr_output(r, field, depth):
-    answer = json.dumps(r.json()['response']['docs'][depth][field])
-    answer = answer.translate(None,'\[\]\"')
-    if (len(answer) > 400):
-        answer = answer[0:400]+'...'
-    return answer
 
 def get_application_response(response, question):
     application_response = response

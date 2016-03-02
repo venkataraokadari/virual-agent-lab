@@ -19,7 +19,7 @@ if 'VCAP_SERVICES' in os.environ:
 #Dialog Functions
 def BMIX_get_first_dialog_response_json():
     global DIALOG_ID, DIALOG_USERNAME, DIALOG_PASSWORD
-    print 'in first_dialog'
+    #print 'in first_dialog'
     POST_SUCCESS = 201
     response_json = None
     url = 'https://watson-api-explorer.mybluemix.net/dialog/api/v1/dialogs/' + DIALOG_ID + '/conversation'

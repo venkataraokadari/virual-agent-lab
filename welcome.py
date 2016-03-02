@@ -50,8 +50,8 @@ def post_watson_response(response):
     now = datetime.datetime.now()
     post = Post(WATSON_STYLE, WATSON_IMAGE, response, now.strftime('%Y-%m-%d %H:%M'), 'Watson')
     POSTS.append(post)
-    print 'in post_watson_response'
-    print post
+    #print 'in post_watson_response'
+    #print post
     return post
 
 def post_user_input(input):
@@ -59,14 +59,14 @@ def post_user_input(input):
     now = datetime.datetime.now()
     post = Post(HUMAN_STYLE, PERSONA_IMAGE, input, now.strftime('%Y-%m-%d %H:%M'), PERSONA)
     POSTS.append(post)
-    print 'in post_user_input'
+    #print 'in post_user_input'
     return post
 
 #Orchestration Function
 def orchestrate(client_id, conversation_id, question):
     #Define NLC confidence threshold
     threshold = 0
-    print 'in orchestrate'
+    #print 'in orchestrate'
     #Classify question with Watson NLC service
     class_name = BMIX_get_class_name(question, threshold)
     #Format question for dialog calling "handshake" formatter
@@ -90,25 +90,25 @@ app = Flask(__name__)
 def Index():
     global POSTS, CHAT_TEMPLATE, DIALOG_CLIENT_ID, DIALOG_CONVERSATION_ID
     POSTS = []
-    print 'in get'
+    #print 'in get'
     first_response = ''
     response_json = BMIX_get_first_dialog_response_json()
     if response_json != None:
         DIALOG_CLIENT_ID = response_json['client_id']
         DIALOG_CONVERSATION_ID = response_json['conversation_id']
         response = response_json['response']
-        print DIALOG_CLIENT_ID
-        print DIALOG_CONVERSATION_ID
-        print response
+        #print DIALOG_CLIENT_ID
+        #print DIALOG_CONVERSATION_ID
+        #print response
     post_watson_response(response)
     return render_template(CHAT_TEMPLATE, posts=POSTS)
 
 @app.route('/', methods=['POST'])
 def Index_Post():
     global POSTS, CHAT_TEMPLATE, QUESTION_INPUT, DIALOG_CLIENT_ID, DIALOG_CONVERSATION_ID
-    print 'in post'
+    #print 'in post'
     question = request.form[QUESTION_INPUT]
-    print question
+    #print question
 #    Display original question
     post_user_input(question)
 #    Orchestrate
