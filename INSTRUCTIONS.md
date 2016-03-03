@@ -70,7 +70,7 @@
 
   [Create Collection API Reference](https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/retrieve-and-rank/api/v1/#create_solr_collection)
 
-  4. Review the sample solr documents in gem_data.json. Notice how each document contains the fields that are defined in the schema.xml. Notice how the structure of the json file follows standard Solr API construction for adding and committing documents. Index the documents.
+  4. Review the sample solr documents in fda_medwatch_docs.json. Notice how each document contains the fields that are defined in the schema.xml. Notice how the structure of the json file follows standard Solr API construction for adding and committing documents. Index the documents.
 
   [Index Documents API Reference](https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/retrieve-and-rank/api/v1/#index_doc)
 
