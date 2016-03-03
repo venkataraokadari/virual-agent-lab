@@ -24,7 +24,7 @@
 
 ## Configure and test the dialog service
 
-  **Note:** Steps 1-5 are optional. They show you how to set up and use the separaet dialog test tool.
+  **Note:** Steps 1-5 are optional. They show you how to set up and use the separate dialog test tool.
 
   1. Test the sample dialog flow by deploying the [Dialog Tool](https://github.com/watson-developer-cloud/dialog-tool?cm_mc_uid=79962573693514539991735&cm_mc_sid_50200000=1456761145). While the dialog tool is not required to build this application, it will help you manage and test your dialog flows going forward.
 
@@ -56,7 +56,7 @@
 
 ## Configure, train and test the Retrieve and Rank service
 
-  1. Create a Solr cluster and apture Cluster ID
+  1. Create a Solr cluster and capture Cluster ID
 
   [Create Cluster API Reference](https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/retrieve-and-rank/api/v1/#create_solr_cluster)
 
