@@ -30,9 +30,7 @@ def BMIX_retrieve_and_rank(args_string, fields_str):
     notes = []
     url = 'https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/' + SOLR_CLUSTER_ID + '/solr/virtual_agent_collection/select?q=' + args_string + '&wt=json&fl=' + fields_str
     r = requests.get(url, auth=(RETRIEVE_AND_RANK_USERNAME, RETRIEVE_AND_RANK_PASSWORD), headers={'content-type': 'application/json'})
-    print r.json()
     if r.status_code == POST_SUCCESS:
-        print 'in rr 200'
         #parse rr response
         for i in range(0,3):
             titles.append(json.dumps(r.json()['response']['docs'][i]['report_title']))
