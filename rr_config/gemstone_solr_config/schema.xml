@@ -110,22 +110,32 @@
      tokens
    -->   
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
-   <field name="product" type="watson_text_en" indexed="true" stored="true" required="false" multiValued="true" />
-   <field name="description" type="watson_text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="text_description" type="watson_text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="date_reported" type="text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="source_type" type="text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="manufacturer_name" type="watson_text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="event_type" type="watson_text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="text_notes" type="watson_text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="model_number" type="text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="report_title" type="text_en" indexed="true" stored="true" required="false" multiValued="true" />
+   <field name="defect_status" type="watson_text_en" indexed="true" stored="true" required="false" multiValued="true" />
 
    <!-- make a copy field using normal OOB solr text_en -->
    <field name="text" type="text_en" indexed="true" stored="false" required="false" multiValued="true" />
    <!-- make a copy field using watson_text_en -->
    <field name="watson_text" type="watson_text_en" indexed="true" stored="false" required="false" multiValued="true" />
    
-   <copyField source="product" dest="text"/>
-   <copyField source="description" dest="text"/>
+   <copyField source="text_description" dest="text"/>
+   <copyField source="manufacturer_name" dest="text"/>
+   <copyField source="event_type" dest="text"/>
+   <copyField source="text_notes" dest="text"/>
+   <copyField source="defect_status" dest="text"/>
    
-   <copyField source="product" dest="watson_text"/>
-   <copyField source="description" dest="watson_text"/>
-
-
-
+   <copyField source="text_description" dest="watson_text"/>
+   <copyField source="manufacturer_name" dest="watson_text"/>
+   <copyField source="event_type" dest="watson_text"/>
+   <copyField source="text_notes" dest="watson_text"/>
+   <copyField source="defect_status" dest="watson_text"/>
 
    <!-- Dynamic field definitions allow using convention over configuration
        for fields via the specification of patterns to match field names. 
@@ -330,7 +340,7 @@
          default constructor via the class attribute on the analyzer element.
          Example:
     <fieldType name="text_greek" class="solr.TextField">
-      <analyzer class="org.apache.lucene.analysis.el.GreekAnalyzer"/>
+      <analyzer class="org.apache.lucene.alolnalysis.el.GreekAnalyzer"/>
     </fieldType>
     -->
 

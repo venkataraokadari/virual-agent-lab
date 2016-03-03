@@ -35,13 +35,13 @@ def BMIX_retrieve_and_rank(args_string, fields_str):
         print 'in rr 200'
         #parse rr response
         for i in range(0,3):
-            titles[i] = json.dumps(r.json()['response']['docs'][i]['report_title'])
+            titles.append(json.dumps(r.json()['response']['docs'][i]['report_title']))
             titles[i] = titles[i].translate(None,'\[\]\"')
         for j in range(0,3):
-            defects[j] = json.dumps(r.json()['response']['docs'][j]['defect_status'])
+            defects.append(json.dumps(r.json()['response']['docs'][j]['defect_status']))
             defects[j] = defects[j].translate(None,'\[\]\"')
         for k in range(0,3):
-            notes[k] = json.dumps(r.json()['response']['docs'][k]['text_notes'])
+            notes.append(json.dumps(r.json()['response']['docs'][k]['text_notes']))
             notes[k] = notes[k].translate(None,'\[\]\"')
         #format response
         docs = '<b>Incident: </b>' + titles[0] + '<br><b>Status: </b>' + defects[0] + '<br><b>Description: </b>' + notes[0] + '<br><br><b>Incident: </b>' + titles[1] + '<br><b>Status: </b>' +  defects[1] + '<br><b>Description: </b>' + notes[1] + '<br><br><b>Incident: </b> ' + titles[2] + '<br><b>Status: </b>' + defects[2] + '<br><b>Description: </b>' + notes[2]
