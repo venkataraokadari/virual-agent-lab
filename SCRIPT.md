@@ -1,5 +1,7 @@
 # Product_Info
 
+Start:
+
 User – What is the expected service time of my ICD?
 
 **Alternatives**
@@ -7,7 +9,7 @@ What is the service time of the device?
 What is the expected end of life?
 How long will this ICD last?
 
-Giva – What model of device are you using?
+  Giva – What model of device are you using?
 
 		User – The Lumax model
 
@@ -22,6 +24,8 @@ Giva – What model of device are you using?
 					Giva - The dual chamber Lumax 500⁄540 variants (Lumax 500 DR T, and Lumax 540 DR T) of ICDs are intended to operate for more than 6 years under normal use. Keep in mind that the service time of an ICD⁄CRT D can vary based on several factors, including the number of charge sequences, programmed parameters, number of tachyarrhythmias detected, relative amount of bradycardia pacing required, pacing lead impedance, storage time, battery properties, and circuit operating characteristics. Service time is the time from beginning of service (BOS) to the elective replacement indication (ERI).
 
 # Troubleshooting
+
+Start:
 
 User – I am having trouble getting readings on the monitoring system.
 
@@ -59,6 +63,8 @@ How do I get readings from the ICD?
 								User – Ok, that worked. I corrected the transmission time and see the readings.
 
 #Issue_Lookup
+
+Start:
 
 User – The patient is reporting multiple slight shocks
 
