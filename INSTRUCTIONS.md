@@ -104,7 +104,7 @@
 
   7. Walk the application code, specifically welcome.py, dialog.py, nlc.py, and randr.py. Start with the initial GET request in the Flask server code and follow each function call.
 
-  ![flask](flask_get.png)
+  ![flask](instructions/flask_get.png)
 
 ## Modify the dialog xml and classifier to create a new troubleshooting flow
 
