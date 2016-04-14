@@ -7,7 +7,7 @@ applications:
   memory: 128M
   instances: 1
   domain: mybluemix.net
-  name: virtual-agent-lab7
-  host: virtual-agent-lab7
+  name: virtual-agent-lab8
+  host: virtual-agent-lab8
   disk_quota: 1024M
   buildpack: python_buildpack
